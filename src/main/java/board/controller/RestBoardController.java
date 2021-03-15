@@ -98,7 +98,7 @@ public class RestBoardController {
 	}
 	
 	/*
-	 사용자가 넘겨받아 다시 전송하는 부분
+	 사용자가 form을 통해서 전송한 데이터를 넘겨받아 DB로 다시 전송하는 부분
 	 */
 	@RequestMapping(value="/board/write", method=RequestMethod.POST)
 	public String insertRestBoard(RestBoardDto data) throws Exception{ //작성페이지에서 작성 후 전송
@@ -106,6 +106,16 @@ public class RestBoardController {
 		
 		return "redirect:/board";
 	}
+	
+	/*
+	 * @중요@
+	- REST API를 스프링부트에서 사용할 경우 기본 html은 form에서 지원하는 method가 get과 post 밖에 없기 때문에 오류가 발생함. (수정, 삭제 누르면 오류나는 이유임)
+	- 스프링에서 REST API를 지원하기 위해서 HiddenHttpMethodFilter 라는 클래스를 사용하여 GET, POST, PUT, DELETE 등의 여러가지 Method를 지원함
+	- 스프링부트2 부터는 기본적으로 HiddenHttpMethodFilter가 등록되어있음.
+	- 현재 스프링부트 2.4.3에서는 WebMvcConfigurationSupport를 상속받아 @Bean을 설정해야 정상적으로 사용 가능함.
+	- 그러나 이 방식이 불편하기 때문에 application.properties 파일에 spring.mvc.hiddenmethod.filter.enabled=true 를 설정하여 사용함
+	 */
+	
 	
 	/*
 	@RequestMapping의 method가 PUT이기 때문에 DB 수정 기능을 사용함 

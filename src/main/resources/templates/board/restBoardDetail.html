@@ -11,16 +11,23 @@
 
 <script>
 	$(document).ready(function(){
-		
+		//id가 boardIdx인 input 태그의 value값 가져옴
 		var boardIdx = $("#boardIdx").val();
 		
 		$("#btnList").on("click",function(){
 			location.href="/board/";
 		});
+		
+		//수정버튼 클릭시
 		$("#btnEdit").on("click",function(){
+			//id가 method인 html(input)태그의 value에 PUT을 입력함
+			//스프링의 rest api 규칙에 의해서 RequestMethod.PUT으로 변경
 			$("#method").val("PUT");
+			// $("#frm")[0] 은 첫번째 form 태그를 선택
 			var frm = $("#frm")[0];
+			// form 태그의 action 속성에 '/board/boardIdx' 주소를 설정
 			frm.action = "/board/"+boardIdx;
+			//서버로 전송
 			frm.submit();
 		});
 		$("#btnDel").on("click",function(){
@@ -73,6 +80,11 @@
 					</div>
 					<!-- 화면에는 보이지 않고 서버에는 전송되는 데이터 -->
 					<input type="hidden" id="boardIdx" name="boardIdx" th:value="${data.boardIdx}">
+					<!-- 
+					스프링4에서 rest api를 사용할 경우 input의 type이 hidden이고, name이 _method 이면
+					자바스크립트로 form 전송시 RequestMethod의 get, post, put, delete로 변경 가능
+					 -->
+					<input type="hidden" id="method" name="_method">
 					<div class="row">
 						<div class="col-sm-4">
 							<button type="button" class="btn btn-primary btn-block" id="btnList">목록으로</button>
