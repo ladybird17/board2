@@ -15,7 +15,7 @@ public class RestBoardServiceImpl implements RestBoardService {
 	private RestBoardMapper restBoardMapper;
 	
 	@Override
-	public List<RestBoardDto> selectBoardList() throws Exception {
+	public List<RestBoardDto> selectRestBoardList() throws Exception {
 
 		return restBoardMapper.selectRestBoardList();
 	}

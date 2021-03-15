@@ -13,7 +13,8 @@
 				t_board
 			WHERE
 				deleted_yn = 'N'
-			ORDER BY board_idx DESC
+			ORDER BY 
+				board_idx DESC
 		]]>
 	</select>
 	
@@ -71,14 +72,15 @@
 	</update>
 	
 	<!-- 게시글 삭제하기 -->
-	<delete id="deleteRestBoard" parameterType="int">
+	<update id="deleteRestBoard" parameterType="int">
 		<![CDATA[
-			DELETE 
-			FROM 
+			UPDATE
 				t_board 
+			SET
+				deleted_yn = 'Y'
 			WHERE 
 				board_idx = #{boardIdx}
 		]]>
-	</delete>
+	</update>
 
 </mapper>

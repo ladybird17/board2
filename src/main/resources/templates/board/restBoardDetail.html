@@ -10,22 +10,21 @@
 <script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
 
 <script>
-	//인덱스 오류남!! 쌤꺼보고 고쳐보기
 	$(document).ready(function(){
 		
-		val boardIdx = $("#boardIdx").val();
+		var boardIdx = $("#boardIdx").val();
 		
 		$("#btnList").on("click",function(){
-			location.href="/board";
+			location.href="/board/";
 		});
 		$("#btnEdit").on("click",function(){
-			$("#method").val("put");
+			$("#method").val("PUT");
 			var frm = $("#frm")[0];
 			frm.action = "/board/"+boardIdx;
 			frm.submit();
 		});
 		$("#btnDel").on("click",function(){
-			$("#method").val("delete");
+			$("#method").val("DELETE");
 			var frm = $("#frm")[0];
 			frm.action = "/board/"+boardIdx;
 			frm.submit();
@@ -64,7 +63,7 @@
 						<input type="text" class="form-control" th:value="${data.createdDatetime}">
 					</div>
 					<div class="input-group">
-						<div class="input-group-text">
+						<div class="input-group-prepend">
 							<span class="input-group-text">제목</span>
 						</div>
 						<input type="text" id="title" name="title" class="form-control" th:value="${data.title}" placeholder="수정시 제목을 입력하세요">
@@ -73,7 +72,7 @@
 						<textarea rows="5" cols="80" id="contents" name="contents" class="form-control" th:text="${data.contents}" placeholder="수정시 내용을 입력하세요"></textarea>
 					</div>
 					<!-- 화면에는 보이지 않고 서버에는 전송되는 데이터 -->
-					<input type="hidden" name="boardIdx" th:value="${data.boardIdx}">
+					<input type="hidden" id="boardIdx" name="boardIdx" th:value="${data.boardIdx}">
 					<div class="row">
 						<div class="col-sm-4">
 							<button type="button" class="btn btn-primary btn-block" id="btnList">목록으로</button>

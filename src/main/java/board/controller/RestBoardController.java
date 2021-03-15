@@ -55,12 +55,14 @@ public class RestBoardController {
 	@GetMapping, @PostMapping, @PutMapping, @DeleteMapping 어노테이션을 사용하면
 	method 부분 생략 가능.
 	*/
-
+	
 	@RequestMapping(value="/board",method=RequestMethod.GET)
-	public ModelAndView openBoardList() throws Exception {
+	public ModelAndView openRestBoardList() throws Exception {	//게시판 목록 조회
+		//ModelAndView : 사용자 화면과 데이터베이스정보를 가지고있는 클래스(Board1의 BoardController 설명 참조함)
 		ModelAndView mv = new ModelAndView("/board/restBoardList");
 		
-		List<RestBoardDto> list = restBoardService.selectBoardList();
+		//인터페이스를 상속받는 ServiceImpl클래스에서 메소드를 사용해야하는데, 위의 @Autowired가 객체생성할 때 BoardServiceImpl의 @Service 어노테이션을 통해 자동연결?생성?해줌
+		List<RestBoardDto> list = restBoardService.selectRestBoardList();
 		mv.addObject("datas",list);
 		
 		return mv;
@@ -74,8 +76,8 @@ public class RestBoardController {
 	@PathVariable("boardIdx")는 boardIdx라는 파라미터값을 
 	uri 부분에 있는{boardIdx} 라는 것과 연동시킴 
 	*/
-	@RequestMapping(value="/board/{boadIdx}", method=RequestMethod.GET)
-	public ModelAndView openRestBoardDetail(@PathVariable("boardIdx") int boardIdx) throws Exception{
+	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.GET)
+	public ModelAndView openRestBoardDetail(@PathVariable("boardIdx") int boardIdx) throws Exception{//글 상세 페이지 조회
 		ModelAndView mv = new ModelAndView("/board/restBoardDetail");
 		
 		RestBoardDto data = restBoardService.selectRestBoardDetail(boardIdx);
@@ -91,7 +93,7 @@ public class RestBoardController {
 	서로 다른 기능을 가지고 있음.
 	*/
 	@RequestMapping(value="/board/write", method=RequestMethod.GET)
-	public String writeRestBoard() throws Exception{
+	public String writeRestBoard() throws Exception{ //게시글 작성 페이지 조회. 이건 Service에는 없는 메소드.
 		return "/board/restBoardWrite";
 	}
 	
@@ -99,7 +101,7 @@ public class RestBoardController {
 	 사용자가 넘겨받아 다시 전송하는 부분
 	 */
 	@RequestMapping(value="/board/write", method=RequestMethod.POST)
-	public String insertRestBoard(RestBoardDto data) throws Exception{
+	public String insertRestBoard(RestBoardDto data) throws Exception{ //작성페이지에서 작성 후 전송
 		restBoardService.insertRestBoard(data);
 		
 		return "redirect:/board";
